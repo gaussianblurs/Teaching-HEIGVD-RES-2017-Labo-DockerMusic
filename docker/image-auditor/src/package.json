@@ -1,0 +1,14 @@
+{
+  "name": "Auditor",
+  "version": "1.0.0",
+  "description": "Simulates someone who listens to the orchestra.",
+  "author": "Arnold von Bauer Gauss arnold.vonbauergauss@heig-vd.ch",
+  "license": "ISC",
+  "main": "auditor.js",
+  "scripts": {
+    "start": "node auditor.js"
+  },
+  "dependencies": {
+      "dgram": "^1.0.1"
+  }
+}

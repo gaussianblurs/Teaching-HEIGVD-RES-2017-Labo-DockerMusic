@@ -1,0 +1,15 @@
+{
+  "name": "Musician",
+  "version": "1.0.0",
+  "description": "Simulates someone who plays an instrument in an orchestra",
+  "author": "Arnold von Bauer Gauss arnold.vonbauergauss@heig-vd.ch",
+  "license": "ISC",
+  "main": "musician.js",
+  "scripts": {
+    "start": "node musician.js"
+  },
+  "dependencies": {
+      "chance": "^1.0.3",
+      "dgram": "^1.0.1"
+  }
+}
