@@ -1,11 +1,11 @@
 var protocol = {
     PROTOCOL_PORT: 41234,
-    PROTOCOL_MULTICAST_ADDRESS: '236.10.0.1',
+    PROTOCOL_MULTICAST_ADDRESS: '239.10.0.1',
     instruments: {
         "piano": "ti-ta-ti",
         "trumpet": "pouet",
         "flute": "trulu",
-        "Violin": "gzi-gzi",
+        "violin": "gzi-gzi",
         "drum": "boum-boum"
     }
 };
@@ -38,7 +38,7 @@ var uuid = chance.guid();
 
 var data = {
     "uuid": uuid,
-    "instrument": arg,
+    "sound": sound,
     "activeSince": new Date().toJSON()
 };
 

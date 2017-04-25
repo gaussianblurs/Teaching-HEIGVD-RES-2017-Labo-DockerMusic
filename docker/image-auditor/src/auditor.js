@@ -1,12 +1,12 @@
 var protocol = {
     PROTOCOL_PORT: 41234,
-    PROTOCOL_MULTICAST_ADDRESS: '236.10.0.1',
+    PROTOCOL_MULTICAST_ADDRESS: '239.10.0.1',
     TCP_PORT: 2205,
     instruments: {
         "piano": "ti-ta-ti",
         "trumpet": "pouet",
         "flute": "trulu",
-        "Violin": "gzi-gzi",
+        "violin": "gzi-gzi",
         "drum": "boum-boum"
     }
 };
@@ -29,9 +29,25 @@ var lastActivityMap = new Map();
 // This call back is invoked when a new datagram has arrived.
 s.on('message', function(msg, source) {
     var data = JSON.parse(msg);
-    lastActivityMap.set(data.uuid, new Date());
-    if(!musicianMap.has(data.uuid)) musicianMap.set(data.uuid, data);
-    console.log("Data has arrived: " + data.uuid + ". Source IP: " + source.address + ". Source port: " + source.port);
+
+    var instrument = "undefined";
+    for (var property in protocol.instruments) {
+        if (protocol.instruments.hasOwnProperty(property)) {
+            if(protocol.instruments[property] == data.sound) {
+                instrument = property;
+            }
+        }
+    }
+
+    var musician = {
+        "uuid": data.uuid,
+        "instrument": instrument,
+        "activeSince": data.activeSince
+    };
+
+    lastActivityMap.set(musician.uuid, new Date());
+    if(!musicianMap.has(musician.uuid)) musicianMap.set(data.uuid, musician);
+    console.log("Data has arrived: " + musician.uuid + ". Source IP: " + source.address + ". Source port: " + source.port);
 });
 
 s.on('error', (err) => {
@@ -51,8 +67,9 @@ var server = net.createServer(function(socket) {
     var value;
     for (value of lastActivityMap) {
         var date = value[1];
-        if(new Date().getTime() - date.getTime() <= 5000) // 5 miliseconds
-        data.push(musicianMap.get(value[0]));
+        if(new Date().getTime() - date.getTime() <= 5000) {
+            data.push(musicianMap.get(value[0]));
+        }
     }
     socket.write(JSON.stringify(data));
     socket.end();
